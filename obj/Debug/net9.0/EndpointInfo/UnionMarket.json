@@ -5,22 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/product/me": {
-      "get": {
-        "tags": [
-          "ProductControler"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/product/login": {
+    "/auth/login": {
       "post": {
         "tags": [
-          "ProductControler"
+          "AuthControler"
         ],
         "requestBody": {
           "content": {
@@ -41,6 +29,18 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "AuthControler"
+        ],
         "responses": {
           "200": {
             "description": "OK"

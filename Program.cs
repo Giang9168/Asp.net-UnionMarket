@@ -5,8 +5,6 @@ using System.Security.Claims;
 using System.Text;
 using UnionMarket.Data;
 using UnionMarket.Data.Repositories;
-using UnionMarket.Interfaces.Repositories;
-using UnionMarket.Interfaces.Services;
 using UnionMarket.Service;
 using System.IdentityModel.Tokens.Jwt;
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -20,6 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 // Cấu hình CORS
 builder.Services.AddCors(options =>
 {

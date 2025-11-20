@@ -1,10 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UnionMarket.Interfaces.Repositories;
+
 using UnionMarket.Models.Entities;
 namespace UnionMarket.Data.Repositories
 {
+
+    public interface IProductRepository
+    {
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product?> GetDetailAsync(int id);
+        Task<Product> AddProductAsync(Product x);
+        Task<Product?> UpdateProductAsync(int id, Product x);
+        Task<bool> DeleteProductAsync(int id);
+
+    }
+
     public class ProductRepository : IProductRepository
     {
         private readonly UnionMarketContext _context;

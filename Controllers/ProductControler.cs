@@ -9,7 +9,6 @@ using System.Security.Claims;
 using System.Text;
 using UnionMarket.Data;
 using UnionMarket.DTOs;
-using UnionMarket.Interfaces.Services;
 using UnionMarket.Models.Entities;
 using UnionMarket.Service;
 using UnionMarket.Validators;
@@ -30,53 +29,7 @@ namespace UnionMarket.Controllers
             _context = context;
             _productService = productService;
         }
-        [Authorize(Roles ="Admin")]
-        [HttpGet("me")]
-        public IActionResult Me()
-        {
-            var username = User.Identity?.Name;
-            var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            return Ok(new { username, role });
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginValidator request)
-        {
-
-            var user = await _context.Users.FirstOrDefaultAsync(u =>
-
-            u.Username == request.Username && u.Password == request.Password
-
-            );
-
-            if (user == null)
-            {
-                return NotFound(new { message = "Tài khoản hoặc mật khẩu không đúng" });
-            }
-            else
-            {
-
-                string roleName = user.Role switch
-                {
-                    1 => "Admin",
-                    2 => "User",
-                    _ => "Guest"
-                };
-
-                var token = GenerateJwtToken.Generate(user.Username, roleName);
-
-                Response.Cookies.Append("jwt", token, new CookieOptions
-                {
-                    HttpOnly = true,
-                   
-                   
-                    Expires = DateTimeOffset.UtcNow.AddMinutes(20),
-                     SameSite = SameSiteMode.Lax
-                });
-                return Ok(new { userName=user.Username,role=user.Role });
-            }
-
-        }
+       
         [HttpGet("{id}")]
          public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductbyId(int id)
         {
@@ -87,7 +40,6 @@ namespace UnionMarket.Controllers
             }
             return Ok(x);
         }
-
 
         //Thêm sản phẩm
         [HttpPost("add")]
@@ -119,8 +71,6 @@ namespace UnionMarket.Controllers
 
 
         [HttpGet]
-        
-
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts()
         {
             var x = await _productService.GetAllProduct();

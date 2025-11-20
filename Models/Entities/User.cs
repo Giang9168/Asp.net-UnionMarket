@@ -13,5 +13,5 @@ public partial class User
 
     public string? Password { get; set; }= string.Empty;
 
-    public int? Role { get; set; }
+    public int Role { get; set; }
 }

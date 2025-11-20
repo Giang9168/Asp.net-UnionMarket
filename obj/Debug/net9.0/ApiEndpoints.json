@@ -1,5 +1,31 @@
 [
   {
+    "ContainingType": "UnionMarket.Controllers.AuthControler",
+    "Method": "Login",
+    "RelativePath": "auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "UnionMarket.Validators.LoginValidator",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UnionMarket.Controllers.AuthControler",
+    "Method": "Me",
+    "RelativePath": "auth/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "UnionMarket.Controllers.ProductControler",
     "Method": "GetProducts",
     "RelativePath": "product",
@@ -106,32 +132,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "UnionMarket.Controllers.ProductControler",
-    "Method": "Login",
-    "RelativePath": "product/login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "UnionMarket.Validators.LoginValidator",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "UnionMarket.Controllers.ProductControler",
-    "Method": "Me",
-    "RelativePath": "product/me",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "UnionMarket.Controllers.ProductControler",

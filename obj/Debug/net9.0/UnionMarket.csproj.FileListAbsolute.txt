@@ -167,3 +167,4 @@ D:\UnionMarket\UnionMarket\UnionMarket\bin\Debug\net9.0\Swashbuckle.AspNetCore.S
 D:\UnionMarket\UnionMarket\UnionMarket\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\UnionMarket\UnionMarket\UnionMarket\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\UnionMarket\UnionMarket\UnionMarket\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+D:\UnionMarket\UnionMarket\UnionMarket\obj\Debug\net9.0\UnionMarket.sourcelink.json
