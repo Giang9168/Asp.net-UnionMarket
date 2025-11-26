@@ -31,7 +31,7 @@ namespace UnionMarket.Controllers
         }
        
         [HttpGet("{id}")]
-         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductbyId(int id)
+         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductbyId(string id)
         {
             var x = await _productService.GetByIdAsync(id);
             if (x == null)
@@ -43,7 +43,7 @@ namespace UnionMarket.Controllers
 
         //Thêm sản phẩm
         [HttpPost("add")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<IEnumerable<ProductDTO?>>> AddProducts([FromBody] ProductValidator product)
         {
             var newProduct = new Product
@@ -60,10 +60,10 @@ namespace UnionMarket.Controllers
             return Ok(x);
         }
         [HttpDelete("delete/{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
 
 
-        public async Task<bool> DeleteProducts(int id)
+        public async Task<bool> DeleteProducts(string id)
         {
             var b = await _productService.DeleteAsync(id);
             return b;
@@ -79,8 +79,8 @@ namespace UnionMarket.Controllers
 
 
         [HttpPut("update/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> UpdateProducts(int id,[FromBody] ProductValidator product)
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> UpdateProducts(string id,[FromBody] ProductValidator product)
         {
 
             var newProduct = new Product
@@ -101,7 +101,7 @@ namespace UnionMarket.Controllers
             
         }
         [HttpGet("admin")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="ADMIN")]
         public async Task<IActionResult> update()
         {
             await _context.SaveChangesAsync();

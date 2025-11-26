@@ -31,13 +31,8 @@ namespace UnionMarket.Controllers
         {
              var user=await _authService.Login(request);
             if (user != null) {
-                string roleName = user.role switch
-                {
-                    1 => "Admin",
-                    2 => "User",
-                    _ => "Guest"
-                };
-                var token = GenerateJwtToken.Generate(user.userName, roleName);
+               
+                var token = GenerateJwtToken.Generate(user.userName, user.role);
 
                 Response.Cookies.Append("jwt", token, new CookieOptions
                 {
@@ -53,7 +48,7 @@ namespace UnionMarket.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         [HttpGet("me")]
         public IActionResult Me()
         {

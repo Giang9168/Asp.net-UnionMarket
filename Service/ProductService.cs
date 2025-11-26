@@ -8,9 +8,9 @@ namespace UnionMarket.Service
     public interface IProductService
     {
         Task<ProductDTO> CreateAsync(Product product);
-        Task<ProductDTO?> UpdateAsync(int id, Product product);
-        Task<bool> DeleteAsync(int id);
-        Task<ProductDTO?> GetByIdAsync(int id);
+        Task<ProductDTO?> UpdateAsync(string id, Product product);
+        Task<bool> DeleteAsync(string id);
+        Task<ProductDTO?> GetByIdAsync(string id);
         Task<ProductDTO> GetByNameAsync(string name);
         Task<IEnumerable<ProductDTO>> GetAllProduct();
     }
@@ -28,13 +28,13 @@ namespace UnionMarket.Service
             var x= await _productRepository.AddProductAsync(product);
             productDTO.Description = product.Description;
             productDTO.Name = product.Name;
-            productDTO.Id = product.Id;
+            productDTO.Id = Guid.NewGuid().ToString();
             productDTO.Price = product.Price;
             return productDTO;
 
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(string id)
         {
             var x= await _productRepository.DeleteProductAsync(id);
             return x;
@@ -51,7 +51,7 @@ namespace UnionMarket.Service
                 ProductDTO a = new ProductDTO();
                 a.Name = product.Name;
                 a.Price = product.Price;
-                a.Id = product.Id;
+                a.Id = product.Id.ToString();
                 a.Description = product.Description;
                 x.Add(a);
             }
@@ -59,13 +59,13 @@ namespace UnionMarket.Service
             return x;
         }
 
-        public async Task<ProductDTO?> GetByIdAsync(int id)
+        public async Task<ProductDTO?> GetByIdAsync(string id)
         {
             var x = await _productRepository.GetDetailAsync(id);
             ProductDTO a = new ProductDTO();
             if (x != null)
             {
-                a.Id = x.Id;
+                a.Id = x.Id.ToString();
                 a.Name = x.Name;
                 a.Price = x.Price;
                 a.Description = x.Description;
@@ -81,14 +81,14 @@ namespace UnionMarket.Service
             throw new NotImplementedException();
         }
 
-        public async Task<ProductDTO?> UpdateAsync(int id, Product product)
+        public async Task<ProductDTO?> UpdateAsync(string id, Product product)
         {
             var x = await _productRepository.UpdateProductAsync(id, product);
             ProductDTO a = new ProductDTO();
             if(x != null)
             {
                 a.Name = x.Name;
-                a.Id = x.Id;
+                a.Id = x.Id.ToString();
                 a.Price = x.Price;
                 a.Description = x.Description;
                 return a;

@@ -23,7 +23,13 @@ namespace UnionMarket.Service
 
         async public Task<UserDTO?> Login(LoginValidator x)
         {
-           var user= await authRepository.Login(x);
+            var priorityOrder = new Dictionary<string, int>
+                {
+                          { "ADMIN", 3 },
+                          { "SELLER", 2 },
+                          { "BUYER", 1 }
+        };
+            var user= await authRepository.Login(x);
             if (user == null)
             {
                 return null;
@@ -31,12 +37,18 @@ namespace UnionMarket.Service
             else
             {
 
-               
 
-                
+                var highestRole = user.Roles
+                    .OrderByDescending(r => priorityOrder.ContainsKey(r.Code) ? priorityOrder[r.Code] : 0)
+                    .FirstOrDefault();
                 var z = new UserDTO();
-                z.role = user.Role;
-                z.userName = user.Username;
+                if (user != null)
+                {
+                    var listRoles = user.Roles.ToList();          
+                    var roleCodes = user.Roles.Select(r => r.Code).ToList(); 
+                }
+                z.role = highestRole?.Code;
+                z.userName = user.Email;
 
                 return z;
             }

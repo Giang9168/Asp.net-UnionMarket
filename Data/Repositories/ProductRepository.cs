@@ -9,10 +9,10 @@ namespace UnionMarket.Data.Repositories
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAllAsync();
-        Task<Product?> GetDetailAsync(int id);
+        Task<Product?> GetDetailAsync(string id);
         Task<Product> AddProductAsync(Product x);
-        Task<Product?> UpdateProductAsync(int id, Product x);
-        Task<bool> DeleteProductAsync(int id);
+        Task<Product?> UpdateProductAsync(string id, Product x);
+        Task<bool> DeleteProductAsync(string id);
 
     }
 
@@ -28,22 +28,23 @@ namespace UnionMarket.Data.Repositories
         public async Task<Product> AddProductAsync(Product x)
         {
                 if(x == null) throw new ArgumentNullException(nameof(x));
-                _context.Product.Add(x);
+                _context.Products.Add(x);
                 await _context.SaveChangesAsync();
                 return x; 
 
         }
 
-        public async Task<bool> DeleteProductAsync(int id)
+        public async Task<bool> DeleteProductAsync(string id)
         {
-            var x = await _context.Product.FindAsync(id);
+            var guid = Guid.Parse(id);
+            var x = await _context.Products.FindAsync(guid);
             if (x == null)
             {
                 return false;
             }
 
             // 3. Nếu tìm thấy, đánh dấu để xóa
-            _context.Product.Remove(x);
+            _context.Products.Remove(x);
 
             // 4. Lưu thay đổi vào database (thực hiện xóa)
             await _context.SaveChangesAsync();
@@ -55,18 +56,20 @@ namespace UnionMarket.Data.Repositories
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _context.Product.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
-        public async Task<Product?> GetDetailAsync(int id)
+        public async Task<Product?> GetDetailAsync(string id)
         {
-            return await _context.Product.FindAsync(id);
+            var guid = Guid.Parse(id);
+            return await _context.Products.FindAsync(guid);
             
         }
 
-        public async Task<Product?> UpdateProductAsync(int id, Product x)
+        public async Task<Product?> UpdateProductAsync(string id, Product x)
         {
-            var productToUpdate = await _context.Product.FindAsync(id);
+            var guid = Guid.Parse(id);
+            var productToUpdate = await _context.Products.FindAsync(guid);
             if (productToUpdate == null)
             {
                 return null;
@@ -83,14 +86,11 @@ namespace UnionMarket.Data.Repositories
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Product.Any(e => e.Id == id))
-                {
+                if (!Guid.TryParse(id, out Guid productId))
+                    throw new Exception("Id không đúng định dạng Guid");
+
+                if (!_context.Products.Any(e => e.Id == productId))
                     return null;
-                }
-                else
-                {
-                    throw;
-                }
             }
             return productToUpdate;
         }

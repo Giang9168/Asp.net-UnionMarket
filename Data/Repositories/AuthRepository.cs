@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UnionMarket.Models;
 using UnionMarket.Models.Entities;
 using UnionMarket.Validators;
 
@@ -18,12 +19,20 @@ namespace UnionMarket.Data.Repositories
         }
        async public Task<User?> Login(LoginValidator request)
         {
-             return  await _context.Users.FirstOrDefaultAsync(u =>
-
-                u.Username == request.Username && u.Password == request.Password
-
-                );
+           var  user = await _context.Users
+        .Where(u => u.Email == request.Username)
+        .Include(u => u.Roles)
+        .FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return null;
+            }
             
+
+               
+            return user;
+            
+           
 
         }
     }
