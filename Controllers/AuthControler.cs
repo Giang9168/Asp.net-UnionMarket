@@ -32,7 +32,7 @@ namespace UnionMarket.Controllers
              var user=await _authService.Login(request);
             if (user != null) {
                
-                var token = GenerateJwtToken.Generate(user.userName, user.role);
+                var token = GenerateJwtToken.Generate(user.userName, user.role,user.id);
 
                 Response.Cookies.Append("jwt", token, new CookieOptions
                 {

@@ -26,6 +26,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "UnionMarket.Controllers.CategoriesController",
+    "Method": "GetCategoryTree",
+    "RelativePath": "category/tree",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "UnionMarket.Controllers.ProductControler",
     "Method": "GetProducts",
     "RelativePath": "product",

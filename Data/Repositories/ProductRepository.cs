@@ -8,7 +8,7 @@ namespace UnionMarket.Data.Repositories
 
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetAllAsync();
+        Task<IEnumerable<Product>> GetAllAsync(Guid userId);
         Task<Product?> GetDetailAsync(string id);
         Task<Product> AddProductAsync(Product x);
         Task<Product?> UpdateProductAsync(string id, Product x);
@@ -54,9 +54,20 @@ namespace UnionMarket.Data.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync(Guid userId)
         {
-            return await _context.Products.ToListAsync();
+            var shop = await _context.Shops
+         .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (shop == null)
+                return new List<Product>();
+
+            // 2. Lấy sản phẩm của shop
+            var products = await _context.Products
+                .Where(p => p.ShopId == shop.Id)
+                .ToListAsync();
+
+            return products;
         }
 
         public async Task<Product?> GetDetailAsync(string id)

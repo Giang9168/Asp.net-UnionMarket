@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UnionMarket.Data;
 
@@ -11,9 +12,11 @@ using UnionMarket.Data;
 namespace UnionMarket.Migrations
 {
     [DbContext(typeof(UnionMarketContext))]
-    partial class UnionMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20251126072225_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1014,25 +1017,17 @@ namespace UnionMarket.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("parent_id");
-
                     b.Property<Guid?>("ShopId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("shop_id");
 
-                    b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("slug");
-
                     b.HasKey("Id")
-                        .HasName("pk_shop_categories");
+                        .HasName("pk_shop_category");
 
                     b.HasIndex("ShopId")
-                        .HasDatabaseName("ix_shop_categories_shop_id");
+                        .HasDatabaseName("ix_shop_category_shop_id");
 
-                    b.ToTable("shop_categories", (string)null);
+                    b.ToTable("shop_category", (string)null);
                 });
 
             modelBuilder.Entity("UnionMarket.Models.ShopReview", b =>
@@ -1594,7 +1589,7 @@ namespace UnionMarket.Migrations
                     b.HasOne("UnionMarket.Models.Shop", "Shop")
                         .WithMany("ShopCategories")
                         .HasForeignKey("ShopId")
-                        .HasConstraintName("fk_shop_categories_shops_shop_id");
+                        .HasConstraintName("fk_shop_category_shops_shop_id");
 
                     b.Navigation("Shop");
                 });

@@ -73,7 +73,38 @@ namespace UnionMarket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts()
         {
-            var x = await _productService.GetAllProduct();
+            //    var candidateClaims = User.Claims
+            //.Where(c =>
+            //    c.Type == ClaimTypes.NameIdentifier ||
+            //    c.Type == JwtRegisteredClaimNames.NameId)
+            //.ToList();
+
+            //    if (!candidateClaims.Any())
+            //        return Unauthorized("Không tìm thấy userId trong token");
+
+            //    Guid userId = Guid.Empty;
+            //    string userIdStr = null;
+
+            //    // Chọn claim nào có value parse được Guid
+            //    foreach (var claim in candidateClaims)
+            //    {
+            //        Console.WriteLine($"Candidate NameIdentifier = [{claim.Value}]");
+            //        if (Guid.TryParse(claim.Value?.Trim(), out userId))
+            //        {
+            //            userIdStr = claim.Value;
+            //            break;
+            //        }
+            //    }
+
+            //    if (userIdStr == null)
+            //        return BadRequest("UserId trong token không đúng định dạng GUID");
+
+            //    Console.WriteLine("Final UserId = " + userId);
+
+
+            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = Guid.Parse(userIdStr);
+            var x = await _productService.GetAllProduct(userId);
             return Ok(x);
         }
 

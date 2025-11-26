@@ -31,7 +31,7 @@ public partial class UnionMarketContext : DbContext
     public virtual DbSet<ShopFollower> ShopFollowers { get; set; }
     // nếu có:
     public virtual DbSet<ShopReview> ShopReviews { get; set; }
-    // public virtual DbSet<ShopCategory> ShopCategories { get; set; } // nếu bạn tạo thêm
+     public virtual DbSet<ShopCategory> ShopCategories { get; set; } // nếu bạn tạo thêm
 
     public virtual DbSet<Category> Categories { get; set; }
 

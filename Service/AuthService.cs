@@ -48,6 +48,7 @@ namespace UnionMarket.Service
                     var roleCodes = user.Roles.Select(r => r.Code).ToList(); 
                 }
                 z.role = highestRole?.Code;
+                z.id =user.Id;
                 z.userName = user.Email;
 
                 return z;

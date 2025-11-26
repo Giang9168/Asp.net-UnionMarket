@@ -12,7 +12,7 @@ namespace UnionMarket.Service
         Task<bool> DeleteAsync(string id);
         Task<ProductDTO?> GetByIdAsync(string id);
         Task<ProductDTO> GetByNameAsync(string name);
-        Task<IEnumerable<ProductDTO>> GetAllProduct();
+        Task<IEnumerable<ProductDTO>> GetAllProduct(Guid userId);
     }
 
     public class ProductService : IProductService
@@ -41,10 +41,10 @@ namespace UnionMarket.Service
         }
 
 
-        public async Task<IEnumerable<ProductDTO>> GetAllProduct()
+        public async Task<IEnumerable<ProductDTO>> GetAllProduct(Guid userId)
         {
             List<ProductDTO> x = new List<ProductDTO>();
-            var products= await _productRepository.GetAllAsync();
+            var products= await _productRepository.GetAllAsync(userId);
            
             foreach(var product in products)
             {

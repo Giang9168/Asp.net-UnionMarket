@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using UnionMarket.Models;
 
 namespace UnionMarket.Service
 {
@@ -16,11 +17,12 @@ namespace UnionMarket.Service
         }
 
 
-        public static string Generate(string username,string roleName)
+        public static string Generate(string username,string roleName,Guid id)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+               
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
                 new Claim(ClaimTypes.Name, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role,roleName)
