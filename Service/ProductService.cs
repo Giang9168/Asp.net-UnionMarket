@@ -1,0 +1,99 @@
+﻿using UnionMarket.Data.Repositories;
+using UnionMarket.DTOs;
+
+using UnionMarket.Models.Entities;
+
+namespace UnionMarket.Service
+{
+    public interface IProductService
+    {
+        Task<ProductDTO> CreateAsync(Product product);
+        Task<ProductDTO?> UpdateAsync(string id, Product product);
+        Task<bool> DeleteAsync(string id);
+        Task<ProductDTO?> GetByIdAsync(string id);
+        Task<ProductDTO> GetByNameAsync(string name);
+        Task<IEnumerable<ProductDTO>> GetAllProduct(Guid userId);
+    }
+
+    public class ProductService : IProductService
+    {
+        private readonly IProductRepository _productRepository;
+        public ProductService(IProductRepository productRepository) {
+        
+            _productRepository = productRepository;
+        }
+        public async Task<ProductDTO> CreateAsync(Product product)
+        {
+            ProductDTO productDTO = new ProductDTO();
+            var x= await _productRepository.AddProductAsync(product);
+            productDTO.Description = product.Description;
+            productDTO.Name = product.Name;
+            productDTO.Id = Guid.NewGuid().ToString();
+            productDTO.Price = product.Price;
+            return productDTO;
+
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            var x= await _productRepository.DeleteProductAsync(id);
+            return x;
+        }
+
+
+        public async Task<IEnumerable<ProductDTO>> GetAllProduct(Guid userId)
+        {
+            List<ProductDTO> x = new List<ProductDTO>();
+            var products= await _productRepository.GetAllAsync(userId);
+           
+            foreach(var product in products)
+            {
+                ProductDTO a = new ProductDTO();
+                a.Name = product.Name;
+                a.Price = product.Price;
+                a.Id = product.Id.ToString();
+                a.Description = product.Description;
+                x.Add(a);
+            }
+
+            return x;
+        }
+
+        public async Task<ProductDTO?> GetByIdAsync(string id)
+        {
+            var x = await _productRepository.GetDetailAsync(id);
+            ProductDTO a = new ProductDTO();
+            if (x != null)
+            {
+                a.Id = x.Id.ToString();
+                a.Name = x.Name;
+                a.Price = x.Price;
+                a.Description = x.Description;
+                return a;
+            }
+            return null;
+            
+
+        }
+
+        public Task<ProductDTO> GetByNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ProductDTO?> UpdateAsync(string id, Product product)
+        {
+            var x = await _productRepository.UpdateProductAsync(id, product);
+            ProductDTO a = new ProductDTO();
+            if(x != null)
+            {
+                a.Name = x.Name;
+                a.Id = x.Id.ToString();
+                a.Price = x.Price;
+                a.Description = x.Description;
+                return a;
+            }
+            return null;
+        }
+    }
+}
